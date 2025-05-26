@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import image from "../assets/images/Empty cart illustration.jpg";
 import { FaTrashAlt } from "react-icons/fa";
 import Modal from "../components/Modal"
-import {removeFromCart} from "../redux/cartSlice"
+import {removeFromCart,increaseQuantity, decreaseQuantity} from "../redux/cartSlice"
+import { useNavigate } from "react-router-dom";
+
 
 
 const Cart = () => {
@@ -11,6 +13,7 @@ const Cart = () => {
   const [address, setAddress] = useState("main street, 0012");
   const [isModelOpen, setIsModelOpen] = useState(false)
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
 
   return (
@@ -42,11 +45,15 @@ const Cart = () => {
                   </div>
                   <p className="text-gray-700">${product.price.toFixed(2)}</p>
                   <div className="flex items-center space-x-2">
-                    <button className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                    <button className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                     onClick={()=>dispatch(decreaseQuantity(product.id))}
+                    >
                       -
                     </button>
                     <p>{product.quantity}</p>
-                    <button className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                    <button className="px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                    onClick={()=>dispatch(increaseQuantity(product.id))}
+                    >
                       +
                     </button>
                   </div>
@@ -86,7 +93,9 @@ const Cart = () => {
                 <span>${cart.totalPrice.toFixed(2)}</span>
               </div>
 
-              <button className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition">
+              <button className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700 transition"
+              onClick={()=>navigate('/checkout')}
+              >
                 Proceed to Checkout
               </button>
             </div>
