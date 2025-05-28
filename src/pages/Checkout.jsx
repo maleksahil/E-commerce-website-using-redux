@@ -1,155 +1,187 @@
 import React, { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const Checkout = () => {
+const Checkout = ({setOrder}) => {
   const [billingToggle, setBillingToggle] = useState(true);
   const [shippingToggle, setShippingToggle] = useState(false);
   const [paymentToggle, setPaymentToggle] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("cod");
 
-  const [paymentMethod, setPaymentMethod] = useState("cod")
   const [shippingInfo, setShippingInfo] = useState({
     address: '',
     city: '',
     zip: ''
-  })
+  });
 
-  const cart = useSelector(state => state.cart)
+  const cart = useSelector(state => state.cart);
+  const navigate = useNavigate()
+
+  const handleOrder = () => {
+    const newOrder = {
+      products: cart.products,
+      orderNumber : "12344",
+      ShippingInformation: shippingInfo,
+      totalPrice: cart.totalPrice
+    }
+    setOrder(newOrder)
+    navigate('/order-confirmation')
+  }
 
   return (
-    <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24">
-      <h3 className="text-2xl font-semibold mb-4">CHECKOUT</h3>
-      <div className="flex flex-col md:flex-row justify-between space-x-10 nt-8">
+    <div className="container mx-auto py-8 px-4 md:px-16 lg:px-24 min-h-screen">
+      <h3 className="text-3xl font-bold mb-8 text-gray-800">Checkout</h3>
 
-      {/* billing */}
-        <div className="md:w-2/3">
-          <div>
-            <div onClick={() => setBillingToggle(!billingToggle)}>
-              <h3>Billing Information</h3>
-              {billingToggle ? <FaAngleDown /> : <FaAngleUp />}
-            </div>
-            <div className={`space-y-4 ${billingToggle ? "" : "hidden"}`}>
-              <div>
-                <label>Name</label>
-                <input type="text" />
-              </div>
-            </div>
-            <div className={`space-y-4 ${billingToggle ? "" : "hidden"}`}>
-              <div>
-                <label>Email</label>
-                <input type="email" />
-              </div>
-            </div>
-            <div className={`space-y-4 ${billingToggle ? "" : "hidden"}`}>
-              <div>
-                <label>Phone</label>
-                <input type="text" />
-              </div>
-            </div>
+      <div className="flex flex-col gap-8">
+        {/* Billing Information */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <div
+            onClick={() => setBillingToggle(!billingToggle)}
+            className="flex justify-between items-center cursor-pointer mb-4"
+          >
+            <h3 className="text-xl font-semibold text-gray-700">Billing Information</h3>
+            {billingToggle ? <FaAngleUp /> : <FaAngleDown />}
           </div>
+
+          {billingToggle && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-600 mb-1">Name</label>
+                <input type="text" className="w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div>
+                <label className="block text-gray-600 mb-1">Email</label>
+                <input type="email" className="w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+              <div className="md:col-span-2">
+                <label className="block text-gray-600 mb-1">Phone</label>
+                <input type="text" className="w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              </div>
+            </div>
+          )}
         </div>
 
-        <div className="md:w-1/3 bg-white p-6 rounded-lg shadow-md border"></div>
-      </div>
+        {/* Shipping Information */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <div
+            onClick={() => setShippingToggle(!shippingToggle)}
+            className="flex justify-between items-center cursor-pointer mb-4"
+          >
+            <h3 className="text-xl font-semibold text-gray-700">Shipping Information</h3>
+            {shippingToggle ? <FaAngleUp /> : <FaAngleDown />}
+          </div>
 
-      {/* shipping */}
-      <div className="md:w-2/3">
-        <div>
-          <div onClick={() => setShippingToggle(!shippingToggle)}>
-            <h3>Billing Information</h3>
-            {shippingToggle ? <FaAngleDown /> : <FaAngleUp />}
-          </div>
-          <div className={`space-y-4 ${shippingToggle ? "" : "hidden"}`}>
-            <div>
-              <label>Address</label>
-              <input type="text" onChange={(e) => setShippingInfo({...shippingInfo, address: e.target.value})}/>
+          {shippingToggle && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="md:col-span-2">
+                <label className="block text-gray-600 mb-1">Address</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={(e) => setShippingInfo({ ...shippingInfo, address: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-600 mb-1">City</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={(e) => setShippingInfo({ ...shippingInfo, city: e.target.value })}
+                />
+              </div>
+              <div>
+                <label className="block text-gray-600 mb-1">Zip Code</label>
+                <input
+                  type="text"
+                  className="w-full border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  onChange={(e) => setShippingInfo({ ...shippingInfo, zip: e.target.value })}
+                />
+              </div>
             </div>
-          </div>
-          <div className={`space-y-4 ${shippingToggle ? "" : "hidden"}`}>
-            <div>
-              <label>City</label>
-              <input type="email" name="city" onChange={(e) => setShippingInfo({...shippingInfo, city: e.target.value})}/>
-            </div>
-          </div>
-          <div className={`space-y-4 ${shippingToggle ? "" : "hidden"}`}>
-            <div>
-              <label>Zip Code</label>
-              <input type="text" name="zip" onChange={(e) => setShippingInfo({...shippingInfo, zip: e.target.value})}/>
-            </div>
-          </div>
+          )}
         </div>
-      </div>
 
-      {/* payment  method*/}
-       <div className="md:w-2/3">
-        <div>
-          <div onClick={() => setPaymentToggle(!paymentToggle)}>
-            <h3>Payment Method</h3>
-            {paymentToggle ? <FaAngleDown /> : <FaAngleUp />}
+        {/* Payment Method */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <div
+            onClick={() => setPaymentToggle(!paymentToggle)}
+            className="flex justify-between items-center cursor-pointer mb-4"
+          >
+            <h3 className="text-xl font-semibold text-gray-700">Payment Method</h3>
+            {paymentToggle ? <FaAngleUp /> : <FaAngleDown />}
           </div>
-          <div className={`space-y-4 ${paymentToggle ? "" : "hidden"}`}>
-            <div>
-              <input type="radio" name="payment" checked = {paymentMethod === "cod"} onChange={()=>setPaymentMethod("cod")} />
-              <label>Cash on Delivery</label>
-            </div>
-          </div>
-          <div className={`space-y-4 ${paymentToggle ? "" : "hidden"}`}>
-            <div>
-              <input type="radio" name="payment" checked = {paymentMethod === "dc"} onChange={()=>setPaymentMethod("dc")} />
-              <label>Debit card</label>
-            </div>
-          </div>
-           {paymentMethod == 'dc' && (
-            <div>
-                <h3>Debit Card Information</h3>
-                <div>
-                    <label htmlFor="">Card Number</label>
-                    <input type="text"/>
-                </div>
-                <div>
-                    <label htmlFor="">Card Holder Name</label>
-                    <input type="text"/>
-                </div>
-                <div>
-                    <div>
-                        <label htmlFor="">Expire Date</label>
-                        <input type="text"/>
-                    </div>
-                    <div>
-                        <label htmlFor="">CVV</label>
-                        <input type="text"/>
-                    </div>
-                </div>
-            </div>
-           )}
 
+          {paymentToggle && (
+            <>
+              <div className="flex items-center space-x-4 mb-4">
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="payment"
+                    checked={paymentMethod === "cod"}
+                    onChange={() => setPaymentMethod("cod")}
+                  />
+                  <span>Cash on Delivery</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    name="payment"
+                    checked={paymentMethod === "dc"}
+                    onChange={() => setPaymentMethod("dc")}
+                  />
+                  <span>Debit Card</span>
+                </label>
+              </div>
 
-           <div>
-            <h3>order Summery</h3>
-            <div>
-                {cart.products.map(product =>(
-                    <div key={product.id}>
-                        <div>
-                            <img src={product.image} alt=""/>
-                            <div>
-                                <h4>{product.name}</h4>
-                                <p>
-                                    &{product.price} x {product.quantity}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div>
-                <div>
-                    <span>Total Price:</span>
-                    <span>${cart.totalPrice.toFixed(2)}</span>
+              {paymentMethod === "dc" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-gray-600 mb-1">Card Number</label>
+                    <input type="text" className="w-full border rounded px-4 py-2" />
+                  </div>
+                  <div>
+                    <label className="block text-gray-600 mb-1">Card Holder Name</label>
+                    <input type="text" className="w-full border rounded px-4 py-2" />
+                  </div>
+                  <div>
+                    <label className="block text-gray-600 mb-1">Expire Date</label>
+                    <input type="text" className="w-full border rounded px-4 py-2" />
+                  </div>
+                  <div>
+                    <label className="block text-gray-600 mb-1">CVV</label>
+                    <input type="text" className="w-full border rounded px-4 py-2" />
+                  </div>
                 </div>
-            </div>
-            <button>Place order</button>
-           </div>
-          
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Order Summary */}
+        <div className="bg-white rounded-lg shadow p-6">
+          <h3 className="text-xl font-semibold mb-4 text-gray-700">Order Summary</h3>
+          <div className="divide-y divide-gray-200">
+            {cart.products.map(product => (
+              <div key={product.id} className="flex items-center py-4 space-x-4">
+                <img src={product.image} alt={product.name} className="w-16 h-16 object-cover border rounded" />
+                <div>
+                  <h4 className="font-medium text-gray-800">{product.name}</h4>
+                  <p className="text-sm text-gray-600">
+                    ₹{product.price} × {product.quantity}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-between items-center mt-6 text-lg font-semibold text-gray-800">
+            <span>Total:</span>
+            <span>₹{cart.totalPrice.toFixed(2)}</span>
+          </div>
+          <button onClick={handleOrder} className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
+            Place Order
+          </button>
         </div>
       </div>
     </div>
