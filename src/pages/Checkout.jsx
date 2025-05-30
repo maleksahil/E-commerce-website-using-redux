@@ -22,9 +22,12 @@ const Checkout = ({setOrder}) => {
     const newOrder = {
       products: cart.products,
       orderNumber : "12344",
-      ShippingInformation: shippingInfo,
+      shippingInformation: shippingInfo,
       totalPrice: cart.totalPrice
     }
+
+    localStorage.setItem("orderData", JSON.stringify(newOrder));
+  
     setOrder(newOrder)
     navigate('/order-confirmation')
   }

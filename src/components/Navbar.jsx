@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Login from './Login'
+import Register from './Register'
+import Modal from './Modal'
 
 const Navbar = () => {
+
+    const [isModelOpen, setIsModelOpen] = useState(false)
+    const [isLogin, setIsLogin] = useState(true)
+
+    const openSignUp = () =>{
+        const [isModelOpen,setIsModelOpen] = useState(false)
+        const [isLogin,setIsLogin] = useState(true)
+
+        const openSignUp = () =>{
+            setIsLogin(false)
+            setIsModelOpen(true)
+        }
+
+        const openLogin = () =>{
+            setIsLogin(true)
+            setIsModelOpen(true)
+        }
+    }
+
     const products = useSelector(state => state.cart.products)
   return (
     <nav className='bg-white shadow-md'>
@@ -26,7 +48,8 @@ const Navbar = () => {
                         </span>
                      )}
                 </Link>
-                <buttton className="hidden md:block">
+                <buttton className="hidden md:block"
+                onClick={()=>setIsModelOpen(true)}>
                     Login | Register
                 </buttton>
                 <button className='block md:hidden'>
@@ -40,6 +63,9 @@ const Navbar = () => {
             <Link to="/checkout" className='hover:underline'>Contact</Link>
             <Link to="/" className='hover:underline'>About</Link>
         </div>
+        <Modal isModelOpen={isModelOpen} setIsModelOpen={setIsModelOpen}>
+            {isLogin ? <Login openSignUp={openSignUp}/>: <Register openLogin={openLogin}/>}
+        </Modal>
     </nav>
   )
 }

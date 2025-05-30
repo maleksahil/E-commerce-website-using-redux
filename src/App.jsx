@@ -9,6 +9,8 @@ import Shop from './pages/Shop'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import Order from './pages/Order'
+import Login from './components/Login'
+import Register from './components/Register'
 
 const App = () => {
 
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/cart" element={<Cart/>}></Route>
           <Route path="/checkout" element={<Checkout setOrder={setOrder} />}></Route>
           <Route path="/order-confirmation" element={<Order order={order} />}></Route>
+          <Route path='/login' element={<Login/>}></Route>
+          <Route path="/register" element={<Register/>}></Route>
         </Routes>
       <Footer/>
       </BrowserRouter>
