@@ -2,7 +2,7 @@ import React from 'react';
 
 const Register = ({openLogin}) => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-transperant px-4">
       <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Sign Up</h2>
         <form className="space-y-4">

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -11,6 +10,7 @@ import Checkout from './pages/Checkout'
 import Order from './pages/Order'
 import Login from './components/Login'
 import Register from './components/Register'
+import FilterData from './pages/FilterData'
 
 const App = () => {
 
@@ -25,6 +25,7 @@ const App = () => {
           <Route path="/cart" element={<Cart/>}></Route>
           <Route path="/checkout" element={<Checkout setOrder={setOrder} />}></Route>
           <Route path="/order-confirmation" element={<Order order={order} />}></Route>
+          <Route path="/filter-data" element={<FilterData />}></Route>
           <Route path='/login' element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
         </Routes>

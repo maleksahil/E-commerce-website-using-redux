@@ -1,19 +1,27 @@
 import React, { useState } from 'react'
 import { FaSearch, FaShoppingCart, FaUser } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import Login from './Login'
 import Register from './Register'
 import Modal from './Modal'
+import { setSearchTerm } from '../redux/ProductSlice'
 
 const Navbar = () => {
 
     const [isModelOpen, setIsModelOpen] = useState(false)
     const [isLogin, setIsLogin] = useState(true)
+    const [search, setSearch] = useState('')
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const openSignUp = () =>{
-        const [isModelOpen,setIsModelOpen] = useState(false)
-        const [isLogin,setIsLogin] = useState(true)
+    
+    const handleSearch = (e) =>{
+        e.preventDefault()
+        dispatch(setSearchTerm(search))
+        navigate('/filter-data')
+    }
+
 
         const openSignUp = () =>{
             setIsLogin(false)
@@ -24,7 +32,7 @@ const Navbar = () => {
             setIsLogin(true)
             setIsModelOpen(true)
         }
-    }
+    
 
     const products = useSelector(state => state.cart.products)
   return (
@@ -34,8 +42,8 @@ const Navbar = () => {
                 <Link to="/">e-SHOP</Link>
             </div>
             <div className='relative flex-1 mx-4'>
-                <form>
-                    <input type='text' placeholder='Search Product' className='w-full border py-2 px-4'/>
+                <form onSubmit={handleSearch}>
+                    <input type='text' placeholder='Search Product' className='w-full border py-2 px-4' onChange={(e)=>setSearch(e.target.value)}/>
                     <FaSearch className='absolute top-3 right-3 text-red-500'></FaSearch>
                 </form>
             </div>
@@ -48,10 +56,10 @@ const Navbar = () => {
                         </span>
                      )}
                 </Link>
-                <buttton className="hidden md:block"
+                <button className="hidden md:block"
                 onClick={()=>setIsModelOpen(true)}>
                     Login | Register
-                </buttton>
+                </button>
                 <button className='block md:hidden'>
                     <FaUser/>
                 </button>
