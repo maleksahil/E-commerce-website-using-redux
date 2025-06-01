@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Order = ({ order }) => {
   const [orderData, setOrderData] = useState(order);
@@ -54,12 +55,14 @@ const Order = ({ order }) => {
       </div>
 
       <div className="flex gap-4">
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+        <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">
           Order Tracking
         </button>
+        <Link to="/">
         <button className="border px-4 py-2 rounded hover:bg-gray-200 transition" >
           Continue Shopping
         </button>
+        </Link>
       </div>
     </div>
   );

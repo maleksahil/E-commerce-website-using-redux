@@ -11,6 +11,7 @@ import Order from './pages/Order'
 import Login from './components/Login'
 import Register from './components/Register'
 import FilterData from './pages/FilterData'
+import ProductDetail from './pages/ProductDetail'
 
 const App = () => {
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/checkout" element={<Checkout setOrder={setOrder} />}></Route>
           <Route path="/order-confirmation" element={<Order order={order} />}></Route>
           <Route path="/filter-data" element={<FilterData />}></Route>
+          <Route path="/product/:id" element={<ProductDetail/>}></Route>
           <Route path='/login' element={<Login/>}></Route>
           <Route path="/register" element={<Register/>}></Route>
         </Routes>
